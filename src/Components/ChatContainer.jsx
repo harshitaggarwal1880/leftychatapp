@@ -151,7 +151,7 @@ const Chatcontainer = styled.div`
     padding: 1rem 2rem;
     display: flex;
     flex-direction: column;
-    height: 72%;
+    height: 73%;
     gap: 1rem;
     overflow: auto;
     .message {
