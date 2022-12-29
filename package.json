@@ -1,6 +1,7 @@
 {
   "name": "chatapp",
   "version": "0.1.0",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -9,7 +10,7 @@
     "axios": "^1.2.1",
     "buffer": "^6.0.3",
     "emoji-picker-react": "^3.5.1",
-    "navigate": "^0.3.6",
+    "netlify-cli": "^12.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",

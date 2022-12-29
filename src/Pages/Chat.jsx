@@ -89,11 +89,11 @@ const Chats = styled.div`
   gap: 1rem;
   height: 100vh;
   weight: 100vw;
-  background-color: #131324;
+  background-color: #000000;
 
   .container {
-    height: 85vh;
-    width: 85vw;
+    height: 90vh;
+    width: 90vw;
     background-color: #00000082;
     display: grid;
     grid-template-columns: 25% 75%;

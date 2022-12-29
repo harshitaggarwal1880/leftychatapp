@@ -14,10 +14,7 @@ const ChatInput = ({ handleSendMsg }) => {
     }
 
     const handleEmojiClick = (event, emoji)=>{
-        console.log(emoji);
-        let message = msg;
-        message += emoji.emoji;
-        setmsg(message);
+        setmsg(msg+emoji.emoji);
     }
 
 
@@ -37,8 +34,7 @@ const ChatInput = ({ handleSendMsg }) => {
           <BsEmojiSmileFill className="emoji-icon" onClick={handleEmojiPicker} />
           {
             showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} />
-          }
-          
+          }          
         </div>
       </div>
 

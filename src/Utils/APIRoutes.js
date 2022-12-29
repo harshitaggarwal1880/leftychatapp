@@ -1,4 +1,5 @@
-export const host = "http://localhost:5000";
+// export const host = "http://localhost:5000";
+export const host = "https://chatapi-production.up.railway.app";
 
 export const registerRoute = `${host}/api/register`;
 

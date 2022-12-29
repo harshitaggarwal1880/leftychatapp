@@ -26,7 +26,8 @@ const Contacts = ({ contacts, currentuser, changechat }) => {
       {currentUsername && currentUserimage && (
         <Container>
           <div className="brand">
-            <img src={logo} alt="Logo" />
+            {/* <img src={logo} alt="Logo" /> */}
+            <h2>Chats</h2>
           </div>
 
           <div className="contacts">
@@ -76,7 +77,7 @@ const Container = styled.div`
   grid-template-rows: 10% 75% 15%;
   overflow: hidden;
   background-color: #080420;
-  height: 85vh;
+  height: 90vh;
 
   
   .brand{
@@ -85,13 +86,14 @@ const Container = styled.div`
     justify-content: center;
     gap: 1rem;
 
+    color: white;
+
     img{
       height: 3rem;
       
     }
 
     h3{
-      color: white;
       text-transform: uppercase;
     }
   }
