@@ -8,77 +8,78 @@ import Logout from "./Logout";
 
 const ChatContainer = ({ currentchat, currentuser, socket }) => {
   const [messages, setmessages] = useState([]);
-
+  const [arrivalMessage, setarrivalMessage] = useState(null);
   const scrollRef = useRef();
 
   useEffect(() => {
     const getallmessages = async () => {
-
       const response = await axios.post(getAllMessageRoute, {
         from: currentuser._id,
         to: currentchat._id,
       });
       setmessages(response.data);
     };
-    if(currentchat){
+    if (currentchat) {
       getallmessages();
     }
   }, [currentchat]);
 
-  
   const handleSendMsg = async (msg) => {
-    
-    setmessages([...messages, {
-      fromSelf: true,
+    setmessages([
+      ...messages,
+      {
+        fromSelf: true,
+        message: msg,
+      },
+    ]);
+
+    socket.current.emit("send-msg", {
+      to: currentchat._id,
+      from: currentuser._id,
       message: msg,
-    }]);
+    });
 
     await axios.post(sendMessageRoute, {
       from: currentuser._id,
       to: currentchat._id,
       message: msg,
     });
-    socket.current.emit("send-msg",{
-      to: currentchat._id,
-      from: currentuser._id,
-      message: msg,
-    });
-
   };
 
-  socket.current.on("msg-recieve",(messag)=>{
-        
-    setmessages([...messages,{
-            fromSelf: false,
-            message: messag
-          }]);
-        })
-
-  // useEffect(() => {
-  //   if(socket.current){
-  //     socket.current.on("msg-recieve",(msg)=>{
-  //       setarrivalMessage({
+  // socket.current.on("msg-recieve", (data) => {
+  //   if (currentchat._id === data.from) {
+  //     console.log("Hello");
+  //     setmessages([
+  //       ...messages,
+  //       {
   //         fromSelf: false,
-  //         message: msg
-  //       });
-  //   })
+  //         message: data.message,
+  //       },
+  //     ]);
   //   }
-  
-  // }, [])
+  // });
 
-  // useEffect(() => {
-    
-  //   arrivalMessage && setmessages((prev)=> [...prev, arrivalMessage]);
-  
-  // }, [arrivalMessage])
-  
-  
   useEffect(() => {
-    
-    scrollRef.current?.scrollIntoView({behaviour:"smooth"});
-  
-  }, [messages])
-  
+    if (socket.current) {
+      socket.current.on("msg-recieve", (data) => {
+        setarrivalMessage({
+          fromSelf: false,
+          from: data.from,
+          message: data.message,
+        });
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (arrivalMessage && arrivalMessage.from === currentchat._id) {
+      setmessages((prev) => [...prev, {fromSelf: arrivalMessage.fromSelf, message: arrivalMessage.message} ]);
+    }
+  }, [arrivalMessage]);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behaviour: "smooth" });
+  }, [messages]);
 
   return (
     <Chatcontainer>
@@ -125,7 +126,7 @@ const Chatcontainer = styled.div`
   overflow: hidden;
   // padding-top: 1rem;
   .chat-header {
-    background-color: #02163b; 
+    background-color: #02163b;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -166,33 +167,30 @@ const Chatcontainer = styled.div`
         border-radius: 1rem;
       }
     }
-    .sended{
+    .sended {
       justify-content: flex-end;
-      .content{
+      .content {
         background-color: #4f04ff21;
       }
     }
-    .recieved{
+    .recieved {
       justify-content: flex-start;
-      .content{
+      .content {
         background-color: #9900ff20;
       }
     }
 
     scrollbar-width: thin;
     scrollbar-color: #e3e3e3 transparent;
-    
 
-
-    &::-webkit-scrollbar{
+    &::-webkit-scrollbar {
       width: 0.2rem;
-      &-thumb{
+      &-thumb {
         background-color: #e3e3e3;
         width: 0.1rem;
         border-radius: 1rem;
       }
     }
-   
   }
 `;
 
