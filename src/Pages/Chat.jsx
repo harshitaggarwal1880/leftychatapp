@@ -8,6 +8,7 @@ import Welcome from "../Components/Welcome";
 import ChatContainer from "../Components/ChatContainer";
 import { io } from "socket.io-client"
 
+
 const Chat = () => {
   const [contacts, setcontacts] = useState([]);
 
